@@ -13,16 +13,16 @@ CREATE TABLE coronavirus.cidade (
 );
 
 CREATE TABLE coronavirus.pais (
-    codigo_iso CHAR(3) primary key,
+    codigo_iso char(3) primary key,
     nome text NOT NULL,
     pop integer NOT NULL, 
-    continente VARCHAR(20) NOT NULL
+    continente varchar(20) NOT NULL
 );
 
 CREATE TABLE coronavirus.leitos (
 	id serial,
 	total_leitos int  NOT NULL,
-	pais_iso int NOT NULL,
+	pais_iso char(3) NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT pais_codfk FOREIGN KEY (pais_iso) REFERENCES coronavirus.pais(codigo_iso)
 );
@@ -58,6 +58,7 @@ CREATE TABLE coronavirus.casos_por_cidade (
     CONSTRAINT pais_casos_cidade_fk FOREIGN KEY (pais) REFERENCES coronavirus.pais(codigo_iso),
     CONSTRAINT data_id_casos_cidade_fk FOREIGN KEY (id_data) REFERENCES coronavirus.tempo(id)
 );
+
 
 CREATE TABLE coronavirus.temperatura_cidade (
     id serial,
