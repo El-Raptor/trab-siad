@@ -1,5 +1,15 @@
 # Changelog
 
+## [Entrega 2] - 2020-05-29
+
+### Adicionado
+
+- Scripts SQL de inserção de dados no DW para todas as tabelas com exceção da tabela *covid19-mundo*.
+
+### Corrigido
+
+- Correção do script de estrutura do DW.
+
 ## [Entrega 1] - 2020-05-20
 
 ### Adicionado
