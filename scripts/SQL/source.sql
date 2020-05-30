@@ -174,6 +174,9 @@ INSERT INTO coronavirus.pais (codigo_iso, nome, pop, continente) VALUES ('ITA', 
 
 -- Insert leitos
 INSERT INTO coronavirus.leitos (total_leitos, pais_iso) VALUES (32363, 'BRA');
+INSERT INTO coronavirus.leitos (total_leitos, pais_iso) VALUES (112000, 'ESP');
+INSERT INTO coronavirus.leitos (total_leitos, pais_iso) VALUES (924107, 'USA');
+INSERT INTO coronavirus.leitos (total_leitos, pais_iso) VALUES (210907, 'ITA');
 
 -- Insert temperatura
 INSERT INTO coronavirus.temperatura (temp_celsius) VALUES (-15);
