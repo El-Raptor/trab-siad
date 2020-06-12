@@ -1,5 +1,15 @@
 # Changelog
 
+## [Entrega 3] - 2020-06-12
+
+### Corrigido
+
+- Correção de escrita no cronograma de entregas.
+
+### Alterado
+
+- Datas do cronograma de entregas alteradas.
+
 ## [Entrega 2] - 2020-05-29
 
 ### Adicionado
