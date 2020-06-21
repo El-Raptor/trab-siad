@@ -34,6 +34,13 @@ CREATE TABLE coronavirus.tempo (
     ano smallint NOT NULL
 );
 
+CREATE TABLE coronavirus.indice_isolamento_social (
+	id serial PRIMARY KEY,
+	data_reg int NOT NULL,
+	taxa_isolamento decimal NOT NULL,
+	CONSTRAINT data_indice_fk FOREIGN KEY (data_reg) REFERENCES coronavirus.tempo(id)
+);
+
 CREATE TABLE coronavirus.covid19_mundo (
 	id serial,
 	data_reg int NOT NULL,

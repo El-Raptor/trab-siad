@@ -163,6 +163,37 @@ INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (28, 5, 2020);
 INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (29, 5, 2020);
 INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (30, 5, 2020);
 INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (31, 5, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (1, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (2, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (3, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (4, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (5, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (6, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (7, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (8, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (9, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (10, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (11, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (12, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (13, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (14, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (15, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (16, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (17, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (18, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (19, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (20, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (21, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (22, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (23, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (24, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (25, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (26, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (27, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (28, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (29, 6, 2020);
+INSERT INTO coronavirus.tempo (dia, mes, ano) VALUES (30, 6, 2020);
+
 
 -- Insert pais
 INSERT INTO coronavirus.pais (codigo_iso, nome, pop, continente) VALUES ('BRA', 'Brazil', 209469333, 'America do Sul');
