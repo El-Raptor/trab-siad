@@ -1,5 +1,20 @@
 # Changelog
 
+## [Entrega 4] - 2020-06-21
+
+### Adicionado
+
+- Adicionado nova tabela *indice_isolamento_social* no DataWarehouse.
+- Nova planilha de dados sobre isolamento social.
+- Adicionado novo script source-social-isolation-index.sql no qual injeta os dados no DW.
+
+### Alterado
+
+- Alterado o código source.sql adicionando mais datas no DW.
+- Alterado o código coronavirus-structure.sql adicionando o código de criação da tabela *indice_isolamento_social*.
+- Alterado o código source-covid-world.sql atualizando os dados do covid19 no mundo.
+- Alterada a modelagem do DW.
+
 ## [Entrega 3] - 2020-06-12
 
 ### Corrigido
