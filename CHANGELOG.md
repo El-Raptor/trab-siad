@@ -1,4 +1,5 @@
 # Changelog
+
 ## [Entrega 5] - 2020-06-29
 
 ### Adicionado
