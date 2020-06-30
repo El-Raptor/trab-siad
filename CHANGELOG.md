@@ -1,5 +1,11 @@
 # Changelog
 
+## [Entrega 5] - 2020-06-29
+
+### Adicionado
+
+- Código Python *first-analisis.py*.
+
 ## [Entrega 4] - 2020-06-21
 
 ### Adicionado
