@@ -38,13 +38,12 @@ def countries_graphs(country):
 
         print(beds_number)
 
+        # Consultando mortes e casos em todos os dias por país.
         postgreSQL_select_query = "SELECT m.mortes, m.casos, t.dia, t.mes, t.ano, m.pais_cod " \
                                   "FROM coronavirus.covid19_mundo m JOIN coronavirus.tempo t ON data_reg = t.id " \
                                   "WHERE m.pais_cod = \'" + country + "\' " \
                                   "ORDER BY (ano, mes, dia)"
 
-        #"SELECT m.mortes, m.casos, t.dia, t.mes, t.ano, m.pais_cod" \
-        #"FROM coronavirus.covid19_mundo m JOIN coronavirus.tempo t ON data_reg = t.id;"
 
         cursor.execute(postgreSQL_select_query)
         record = cursor.fetchall()
@@ -81,7 +80,9 @@ def countries_graphs(country):
     df3 = df2.pivot(columns='Pais')
 
     ax = df3.plot()
-    ax.axhline(beds_number[0], linewidth=1, color='r')
+    ax.axhline(beds_number[0], linewidth=1, color='r', label='Capacidade Máxima de Leitos')
+    ax.legend()
+    #ax.set_yscale('log')
 
     #plt.ylabel('Leitos')
 
