@@ -14,8 +14,6 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import LeaveOneOut
 from datetime import datetime
 
-
-
 df = pd.DataFrame()
 try:
     # Query de busca de dados e montagem do data frame para análise.
@@ -28,7 +26,7 @@ try:
     cursor = connection.cursor()
 
     # Obtenção dos dias nos quais têm a taxa de isolamento disponível.
-    postgreSQL_select_query = "SELECT tempo.dia, tempo.mes, tempo.ano " \
+    postgreSQL_select_query = "SELECT tempo.dia, tempo.mes, tempo.ano, indice.taxa_isolamento " \
                               "FROM coronavirus.tempo as tempo, coronavirus.indice_isolamento_social as indice  " \
                               "WHERE tempo.id = indice.data_reg " \
                               "ORDER BY tempo.ano, tempo. mes, tempo.dia"
@@ -44,8 +42,10 @@ try:
         date = str(row[0]) + "/" + str(row[1]) + "/" + str(row[2])
         date = datetime.strptime(date, '%d/%m/%Y')
         time.append(date)
+        rate.append(row[3])
 
     df["Data"] = time
+    df["Taxa"] = rate
 
     # Obtenção dos casos e mortes no Brasil para os dias selecionados na consulta anterior.
     postgreSQL_select_query = "SELECT mundo.casos, mundo.mortes, mundo.pais_cod, tempo.dia, tempo.mes, tempo.ano " \
@@ -77,24 +77,32 @@ finally:
         connection.close()
         print("PostgreSQL connection is closed")
 
-# Normalização dos casos entre o intervalo de 0 e 1
+# Normalização dos casos e taxa de isolamento entre o intervalo de 0 e 1
 # usando sklearn MinMaxScaler
 covid_norm = df["Casos"].values.copy()
 covid_norm.shape = (len(covid_norm), 1)
 
+isolation_norm = df["Taxa"].values.copy()
+isolation_norm.shape = (len(isolation_norm), 1)
+
 min_max_scaler = MinMaxScaler()
 
 covid_norm = min_max_scaler.fit_transform(covid_norm)
+isolation_norm = min_max_scaler.fit_transform(isolation_norm)
 
 df["CasosNormalizados"] = covid_norm
+df["TaxaNormalizadas"] = isolation_norm
 
 # Predição em forma de janela, olhando o tamanho da janela casos anteriores
 window = pd.DataFrame()
 window_size = 7
 
-for i in range(0, window_size + 1):
+for i in range(0, window_size):
     window['E{}'.format(i)] = df['CasosNormalizados'].shift(-i)
-
+    if (i == window_size - 1):
+        for j in range(0, window_size):
+            window['E{}'.format(j + i + 1)] = df['TaxaNormalizadas'].shift(-j)
+        window['E{}'.format(window_size * 2 + 1)] = df['CasosNormalizados'].shift(-window_size)
 window = window.iloc[: -window_size]
 
 holder = window.values
@@ -108,7 +116,7 @@ print(window)
 loo = LeaveOneOut()
 
 mlp = MLPRegressor(
-    hidden_layer_sizes=(100, 50), alpha=0.001,
+    hidden_layer_sizes=(50,), alpha=0.001,
     learning_rate_init=0.01, max_iter=1000,
     random_state=9, verbose=True)
 svr = SVR(kernel='linear', C=0.25, epsilon=0.01, verbose=True, max_iter=1000)
@@ -118,7 +126,7 @@ full_predict_lr = cross_val_predict(lr, X, Y, cv=10)
 full_predict_mlp = cross_val_predict(mlp, X, Y, cv=loo)
 full_predict_svr = cross_val_predict(svr, X, Y, cv=loo)
 
-print('Mean Squared Error in LR: %s' %(metrics.mean_squared_error(Y, full_predict_lr)))
+print('Mean Squared Error in LR: %s' % (metrics.mean_squared_error(Y, full_predict_lr)))
 print('Mean Squared Error in MLP: %s' % (metrics.mean_squared_error(Y, full_predict_mlp)))
 print('Mean Squared Error in SVR: %s' % (metrics.mean_squared_error(Y, full_predict_svr)))
 
@@ -126,20 +134,19 @@ r_squared_lr = metrics.r2_score(Y, full_predict_lr)
 r_squared_mlp = metrics.r2_score(Y, full_predict_mlp)
 r_squared_svr = metrics.r2_score(Y, full_predict_svr)
 
-print('R² score in LR: %s' %(r_squared_lr))
-print('R² score in MLP: %s' %(r_squared_mlp))
-print('R² score in SVR: %s' %(r_squared_svr))
+print('R² score in LR: %s' % (r_squared_lr))
+print('R² score in MLP: %s' % (r_squared_mlp))
+print('R² score in SVR: %s' % (r_squared_svr))
 
 adjusted_r_squared_lr = 1 - (1 - r_squared_lr) * (len(Y) - 1) / (len(Y) - X.shape[1] - 1)
 adjusted_r_squared_mlp = 1 - (1 - r_squared_mlp) * (len(Y) - 1) / (len(Y) - X.shape[1] - 1)
 adjusted_r_squared_svr = 1 - (1 - r_squared_svr) * (len(Y) - 1) / (len(Y) - X.shape[1] - 1)
 
-print('adjusted R² score in LR: %s' %(adjusted_r_squared_lr))
-print('adjusted R² score in MLP: %s' %(adjusted_r_squared_mlp))
-print('adjusted R² score in SVR: %s' %(adjusted_r_squared_svr))
+print('adjusted R² score in LR: %s' % (adjusted_r_squared_lr))
+print('adjusted R² score in MLP: %s' % (adjusted_r_squared_mlp))
+print('adjusted R² score in SVR: %s' % (adjusted_r_squared_svr))
 
-# Preenchendo as listas com Nan para que o tamanho seja igual por todas as listas
-# e o gráfico ser gerado sem erros.
+# Tratamento para plotar o gráfico
 values_to_add = list()
 for i in range(0, window_size):
     values_to_add.append(float('NaN'))
@@ -153,12 +160,11 @@ full_predict_mlp.shape = (len(full_predict_mlp), 1)
 full_predict_lr = np.insert(full_predict_lr, 0, values_to_add)
 full_predict_lr.shape = (len(full_predict_lr), 1)
 
-# Adicionando os dados para plotá-los
-df['Predict_lr'] = full_predict_lr
 df['Predict_mlp'] = full_predict_mlp
 df['Predict_svr'] = full_predict_svr
+df['Predict_lr'] = full_predict_lr
 
 df = df.set_index('Data')
 
-df.plot(y=['CasosNormalizados', 'Predict_mlp', 'Predict_svr', 'Predict_lr'], style=['-s', '--o'])
+df.plot(y=['CasosNormalizados', 'Predict_mlp', 'Predict_svr', 'Predict_lr', 'TaxaNormalizadas'], style=['-s', '--o'])
 plt.show()
