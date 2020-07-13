@@ -1,6 +1,7 @@
-# Felipe Salles Lopes
-# Celso Antonio
-
+""" Nome - RGA:
+    Celso Antonio - 2014.1907.003-7
+    Felipe S. Lopes - 2016.1907.032-4
+"""
 import psycopg2
 import pandas as pd
 import numpy as np

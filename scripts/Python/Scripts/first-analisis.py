@@ -1,6 +1,7 @@
 """ Nome - RGA:
     Celso Antonio - 2014.1907.003-7
     Felipe S. Lopes - 2016.1907.032-4
+    Lucas Avanzi - 2016.1907.024-3
 """
 
 import psycopg2
@@ -26,6 +27,7 @@ def countries_graphs(country):
 
         cursor = connection.cursor()
 
+        # Busca o total de leitos e o país passado como parâmetro.
         postgreSQL_select_query = "SELECT l.total_leitos, l.pais_iso " \
                                   "FROM coronavirus.leitos l " \
                                   "WHERE l.pais_iso = \'" + country + "\'"

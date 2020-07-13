@@ -1,6 +1,7 @@
 """ Nome - RGA:
     Celso Antonio - 2014.1907.003-7
     Felipe S. Lopes - 2016.1907.032-4
+    Lucas Avanzi - 2016.1907.024-3
 """
 
 import psycopg2
