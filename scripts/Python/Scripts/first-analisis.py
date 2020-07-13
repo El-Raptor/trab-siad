@@ -66,6 +66,7 @@ def countries_graphs(country):
         df['Data'] = time
         df['Pais'] = covid_countries
         df['Mortes Acumuladas'] = df.groupby('Pais')['Mortes'].cumsum()
+        df['Casos Acumulados'] = df.groupby('Pais')['Casos'].cumsum()
 
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to PostgreSQL", error)
@@ -78,17 +79,19 @@ def countries_graphs(country):
 
     df2 = df.set_index('Data')
     df3 = df2.pivot(columns='Pais')
+    df3 = df3.drop(columns=['Casos', 'Mortes'])
 
     ax = df3.plot()
+    plt.title('Coronavírus e Capacidade de Leitos')
     ax.axhline(beds_number[0], linewidth=1, color='r', label='Capacidade Máxima de Leitos')
     ax.legend()
     #ax.set_yscale('log')
 
     #plt.ylabel('Leitos')
 
-    print(df['Data'])
-
     plt.show()
+
+    plt.savefig(country.lower() + '_beds_plot.png')
 
 
 countries_graphs('BRA')
